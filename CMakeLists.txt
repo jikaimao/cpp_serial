@@ -3,7 +3,6 @@ project(cpp_serial VERSION 0.2.0 LANGUAGES CXX)
 
 option(CPP_SERIAL_BUILD_TESTS "Build cpp_serial tests" ON)
 option(CPP_SERIAL_ALLOW_FETCH "Allow FetchContent fallback for dependencies" ON)
-option(CPP_SERIAL_BUILD_EXAMPLES "Build cpp_serial usage examples" ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -60,9 +59,4 @@ if(CPP_SERIAL_BUILD_TESTS)
   )
 
   add_test(NAME cpp_serial_tests COMMAND cpp_serial_tests)
-endif()
-
-if(CPP_SERIAL_BUILD_EXAMPLES)
-  add_executable(cpp_serial_example examples/basic_example.cpp)
-  target_link_libraries(cpp_serial_example PRIVATE cpp_serial)
 endif()

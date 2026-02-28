@@ -49,14 +49,3 @@ if (!st.ok) {
   // st.code + st.message 进行故障处理
 }
 ```
-
-## Example
-
-仓库提供了示例程序：`examples/basic_example.cpp`。
-
-```bash
-cmake -S . -B build -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release
-cmake --build build -j --target cpp_serial_example
-```
-
-运行后会尝试打开 `COM3` 并执行一次写入/读取，你可以按设备实际端口修改示例中的端口号和报文字节。
