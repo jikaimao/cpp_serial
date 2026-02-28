@@ -1,10 +1,12 @@
 #include "cpp_serial/serial_port.hpp"
-
+#include <chrono>
+#include <thread>
 #include <cstdint>
 #include <iostream>
 #include <vector>
 
 int main() {
+  auto start_time = std::chrono::high_resolution_clock::now();
   cpp_serial::SerialPort port;
 
   cpp_serial::SerialConfig cfg;
@@ -13,17 +15,17 @@ int main() {
   cfg.parity = cpp_serial::Parity::None;
   cfg.stopBits = cpp_serial::StopBits::One;
   cfg.flowControl = cpp_serial::FlowControl::None;
-  cfg.readTimeout = std::chrono::milliseconds(200);
-  cfg.writeTimeout = std::chrono::milliseconds(200);
+  cfg.readTimeout = std::chrono::milliseconds(50);
+  cfg.writeTimeout = std::chrono::milliseconds(50);
 
-  const auto openStatus = port.open("COM3", cfg);
+  const auto openStatus = port.open("COM20", cfg);
   if (!openStatus.ok) {
     std::cerr << "Open failed, code=" << static_cast<int>(openStatus.code)
               << ", message=" << openStatus.message << '\n';
     return 1;
   }
 
-  const std::vector<std::uint8_t> tx{0x01, 0x03, 0x00, 0x00, 0x00, 0x02, 0xC4, 0x0B};
+  const std::vector<std::uint8_t> tx{0x01, 0x03, 0x0c, 0x00};
   std::size_t written = 0;
   const auto writeStatus = port.write(tx, written);
   if (!writeStatus.ok) {
@@ -52,6 +54,9 @@ int main() {
               << ", message=" << closeStatus.message << '\n';
     return 4;
   }
-
+  auto end_time = std::chrono::high_resolution_clock::now();
+  auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end_time - start_time);
+  std::cout << std::dec << "Total execution time: " << duration.count() << " us (" 
+            << duration.count() / 1000.0 << " ms)\n";
   return 0;
 }

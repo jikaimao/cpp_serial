@@ -77,7 +77,7 @@ class WindowsSerialBackend final : public ISerialBackend {
     dcb.fBinary = TRUE;
     dcb.fParity = config.parity != Parity::None;
     dcb.fOutxCtsFlow = config.flowControl == FlowControl::RtsCts;
-    dcb.fRtsControl = config.flowControl == FlowControl::RtsCts ? RTS_CONTROL_HANDSHAKE : RTS_CONTROL_DISABLE;
+    dcb.fRtsControl = config.flowControl == FlowControl::RtsCts ? RTS_CONTROL_HANDSHAKE : RTS_CONTROL_ENABLE;
     dcb.fDtrControl = DTR_CONTROL_ENABLE;
 
     if (!SetCommState(handle_, &dcb)) {
